@@ -11,8 +11,16 @@
         <connector port="8446" clientAuth="false" _name="cert_https"/>
         -->
         <!-- Disable webtak and non-admin user interfaces -->
-        <connector port="8443" _name="https" enableWebtak="{{getenv "WEBTAK_ENABLE" "false"}}" enableNonAdminUI="false" />
+        <input _name="adsb-udp"
+                protocol="udp"
+                bindAddr="0.0.0.0"
+                port="7777"
+                coreVersion="2"/>
+        <connector port="8443" _name="https" enableWebtak="{{getenv "WEBTAK_ENABLE" "true"}}" enableNonAdminUI="true" />
     </network>
+    <channels>
+        <channel name="adsb-udp" enabled="true" description="ADS-B data"/>
+    </channels>
 {{if getenv "LDAP_BIND_PASSWORD" ""}}
     <auth default="ldap" x509groups="true" x509addAnonymous="false">
         <File location="/opt/tak/data/UserAuthenticationFile.xml"/>

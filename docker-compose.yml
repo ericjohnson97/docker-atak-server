@@ -1,5 +1,5 @@
 x-takbuilds: &takbuildinfo
-  image: "pvarki/takserver:${TAK_RELEASE:-5.5-RELEASE-45}${DOCKER_TAG_EXTRA:-}"
+  image: "takserver:5.5-45"
   build:
     context: .
     dockerfile: Dockerfile
@@ -35,6 +35,7 @@ services:
     ports:
       - '8089:8089'
       - '8443:8443'
+      - "7777:7777/udp" 
     command: ./opt/scripts/start-tak.sh config
     healthcheck:
       test: 'true'  # FIXME
@@ -121,6 +122,7 @@ services:
         condition: service_healthy
     volumes:
       - takserver_data:/opt/tak/data
+      - ./update:/opt/tak/webcontent/update 
     network_mode: "service:takserver_messaging"
     command: ./opt/scripts/start-tak.sh pm
     healthcheck:
@@ -131,13 +133,18 @@ services:
       start_period: 5s
 
   takdb:
-    image: postgis/postgis:15-3.3
+    build:
+      context: ./db
+      dockerfile: Dockerfile
+    # optional: force arm64 explicitly
+    platform: linux/arm64
     networks:
       - taknet
     env_file:
       - 'takserver.env'
     volumes:
       - 'takdb_data:/var/lib/postgresql/data'
+      - './db/initdb:/docker-entrypoint-initdb.d:ro'
     healthcheck:
       test: "pg_isready --dbname=$$POSTGRES_DB --username=$$POSTGRES_USER"
       interval: 5s

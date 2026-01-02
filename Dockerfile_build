@@ -1,4 +1,4 @@
-FROM gradle:jdk11-jammy AS build-deps
+FROM gradle:jdk17-jammy AS build-deps
 ENV \
   # locale
   LC_ALL=C.UTF-8
@@ -6,6 +6,7 @@ RUN apt-get update && apt-get install -y \
         git \
         openssh-client \
         build-essential \
+        protobuf-compiler unzip curl \
     && apt-get autoremove -y \
     && rm -rf /var/lib/apt/lists/* \
     # githublab ssh host keys
@@ -14,16 +15,29 @@ RUN apt-get update && apt-get install -y \
 
 
 FROM build-deps AS checkout
+USER gradle
 ARG REPO_URL="https://github.com/TAK-Product-Center/Server.git"
-ARG TAK_RELEASE="5.0-RELEASE-30"
+ARG TAK_RELEASE="5.2-RELEASE-16"  
 WORKDIR /home/gradle/src
-RUN git clone --depth 1 --branch $TAK_RELEASE $REPO_URL \
-    && true
+RUN git clone --depth 1 --branch $TAK_RELEASE $REPO_URL && true
 
 
 FROM checkout AS build-jars
+# Force protobuf plugin to use /usr/bin/protoc (ARM native) instead of downloading
+USER root
+RUN printf '%s\n' \
+'allprojects {' \
+'  plugins.withId("com.google.protobuf") {' \
+'    protobuf {' \
+'      protoc { path = "/usr/bin/protoc" }' \
+'    }' \
+'  }' \
+'}' > /home/gradle/use-local-protoc.gradle
+USER gradle
+RUN java -version && cd Server/src && ./gradlew --version
+# sanity: show versions we’re building with
 RUN cd Server/src \
-    && ./gradlew clean bootWar bootJar shadowJar \
+    && ./gradlew --no-daemon -I /home/gradle/use-local-protoc.gradle clean bootWar bootJar shadowJar \
     && true
 
 
