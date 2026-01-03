@@ -137,7 +137,7 @@ services:
       context: ./db
       dockerfile: Dockerfile
     # optional: force arm64 explicitly
-    platform: linux/arm64
+    # platform: linux/arm64
     networks:
       - taknet
     env_file:
