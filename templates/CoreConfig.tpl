@@ -5,24 +5,14 @@
     <network multicastTTL="5">
         <input _name="stdssl" protocol="tls" port="8089" coreVersion="2"/>
 
-        <!-- default web connectors
-        <connector port="8443" _name="https"/>
-        <connector port="8444" useFederationTruststore="true" _name="fed_https"/>
-        <connector port="8446" clientAuth="false" _name="cert_https"/>
-        -->
-        <!-- Disable webtak and non-admin user interfaces -->
         <input _name="adsb-udp"
                 protocol="udp"
                 bindAddr="0.0.0.0"
                 port="7777"
                 coreVersion="2"/>
-        <!-- Admin UI only -->
-        <connector port="8443" _name="admin_https"
-                enableWebtak="false"
-                enableNonAdminUI="false"
-                enableAdminUI="true"
-                clientAuth="true" />
-        <connector port="8446" _name="https" enableWebtak="{{getenv "WEBTAK_ENABLE" "true"}}" enableNonAdminUI="true" />
+        <connector port="8443" _name="https"/>
+        <connector port="8444" useFederationTruststore="true" _name="fed_https"/>
+        <connector port="8446" clientAuth="false" _name="cert_https"/>
     </network>
     <channels>
         <channel name="adsb-udp" enabled="true" description="ADS-B data"/>
