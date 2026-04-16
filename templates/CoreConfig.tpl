@@ -16,7 +16,13 @@
                 bindAddr="0.0.0.0"
                 port="7777"
                 coreVersion="2"/>
-        <connector port="8443" _name="https" enableWebtak="{{getenv "WEBTAK_ENABLE" "true"}}" enableNonAdminUI="true" />
+        <!-- Admin UI only -->
+        <connector port="8443" _name="admin_https"
+                enableWebtak="false"
+                enableNonAdminUI="false"
+                enableAdminUI="true"
+                clientAuth="true" />
+        <connector port="8446" _name="https" enableWebtak="{{getenv "WEBTAK_ENABLE" "true"}}" enableNonAdminUI="true" />
     </network>
     <channels>
         <channel name="adsb-udp" enabled="true" description="ADS-B data"/>
