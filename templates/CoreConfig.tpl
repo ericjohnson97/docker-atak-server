@@ -77,7 +77,7 @@
             />
     </security>
 {{if eq (getenv "FEDERATION_ENABLE" "true") "true"}}
-    <federation allowFederatedDelete="false" allowMissionFederation="true" enableDataPackageAndMissionFileFilter="false" enableMissionFederationDisruptionToleranceRecovery="true" missionFederationDisruptionToleranceRecoverySeconds="172800" missionFederationRecencySeconds="43200">
+    <federation enableFederation="true" allowFederatedDelete="false" allowMissionFederation="true" enableDataPackageAndMissionFileFilter="false" enableMissionFederationDisruptionToleranceRecovery="true" missionFederationDisruptionToleranceRecoverySeconds="172800" missionFederationRecencySeconds="43200">
         <federation-server coreVersion="2" v2Port="{{getenv "FEDERATION_V2_PORT" "9001"}}" webBaseUrl="https://localhost:8443/Marti">
             <tls context="TLSv1.2"
                  keymanager="SunX509"
