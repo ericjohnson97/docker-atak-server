@@ -76,4 +76,15 @@
             enableOCSP="{{getenv "TAK_OCSP_ENABLE" "false"}}"
             />
     </security>
+{{if eq (getenv "FEDERATION_ENABLE" "true") "true"}}
+    <federation allowFederatedDelete="false" allowMissionFederation="true" enableDataPackageAndMissionFileFilter="false" enableMissionFederationDisruptionToleranceRecovery="true" missionFederationDisruptionToleranceRecoverySeconds="172800" missionFederationRecencySeconds="43200">
+        <federation-server coreVersion="2" v2Port="{{getenv "FEDERATION_V2_PORT" "9001"}}" webBaseUrl="https://localhost:8443/Marti">
+            <tls context="TLSv1.2"
+                 keymanager="SunX509"
+                 keystore="JKS" keystoreFile="/opt/tak/data/certs/files/takserver.jks" keystorePass="{{.Env.TAKSERVER_CERT_PASS}}"
+                 truststore="JKS" truststoreFile="/opt/tak/data/certs/files/fed-truststore.jks" truststorePass="{{.Env.CA_PASS}}"/>
+            <v1Tls tlsVersion="TLSv1.2"/>
+        </federation-server>
+    </federation>
+{{end}}
 </Configuration>

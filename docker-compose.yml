@@ -19,6 +19,7 @@ services:
       - taknet
     volumes:
       - takserver_data:/opt/tak/data
+      - ./templates:/opt/templates:ro
     command: /opt/scripts/firstrun.sh
 
   takserver_config:
@@ -30,6 +31,7 @@ services:
           condition: service_completed_successfully
     volumes:
       - takserver_data:/opt/tak/data
+      - ./templates:/opt/templates:ro
     networks:
       - taknet
     ports:
@@ -57,6 +59,7 @@ services:
         condition: service_healthy
     volumes:
       - takserver_data:/opt/tak/data
+      - ./templates:/opt/templates:ro
     network_mode: "service:takserver_config"
     command: ./opt/scripts/start-tak.sh messaging
     healthcheck:
@@ -80,6 +83,7 @@ services:
     volumes:
       - takserver_data:/opt/tak/data
       - ./update:/opt/tak/webcontent/update
+      - ./templates:/opt/templates:ro
     network_mode: "service:takserver_messaging"
     command: ./opt/scripts/start-tak.sh api
     healthcheck:
@@ -102,6 +106,7 @@ services:
         condition: service_healthy
     volumes:
       - takserver_data:/opt/tak/data
+      - ./templates:/opt/templates:ro
     network_mode: "service:takserver_messaging"
     command: ./opt/scripts/start-tak.sh retention
     healthcheck:
@@ -124,7 +129,8 @@ services:
         condition: service_healthy
     volumes:
       - takserver_data:/opt/tak/data
-      - ./update:/opt/tak/webcontent/update 
+      - ./update:/opt/tak/webcontent/update
+      - ./templates:/opt/templates:ro
     network_mode: "service:takserver_messaging"
     command: ./opt/scripts/start-tak.sh pm
     healthcheck:
