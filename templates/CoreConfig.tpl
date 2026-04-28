@@ -5,13 +5,21 @@
     <network multicastTTL="5">
         <input _name="stdssl" protocol="tls" port="8089" coreVersion="2"/>
 
-        <input _name="adsb-udp"
+        <datafeed _name="adsb-feed"
                 protocol="udp"
-                bindAddr="0.0.0.0"
                 port="7777"
-                coreVersion="2">
+                coreVersion="2"
+                archive="false"
+                archiveOnly="true"
+                federated="false"
+                syncCacheRetentionSeconds="3600"
+                anongroup="false">
+            <uuid>a1b2c3d4-adsb-4000-8000-000000000001</uuid>
+            <type>streaming</type>
+            <tag>adsb</tag>
+            <sync>true</sync>
             <filtergroup>ADSB</filtergroup>
-        </input>
+        </datafeed>
         <connector port="8443" _name="https" enableAdminUI="true" enableWebtak="false" enableNonAdminUI="false"/>
         <connector port="8444" useFederationTruststore="true" _name="fed_https"/>
         <connector port="8446" clientAuth="false" _name="cert_https" enableWebtak="true" enableNonAdminUI="true"/>
