@@ -9,7 +9,9 @@
                 protocol="udp"
                 bindAddr="0.0.0.0"
                 port="7777"
-                coreVersion="2"/>
+                coreVersion="2">
+            <filtergroup>ADSB</filtergroup>
+        </input>
         <connector port="8443" _name="https" enableAdminUI="true" enableWebtak="false" enableNonAdminUI="false"/>
         <connector port="8444" useFederationTruststore="true" _name="fed_https"/>
         <connector port="8446" clientAuth="false" _name="cert_https" enableWebtak="true" enableNonAdminUI="true"/>
