@@ -17,7 +17,7 @@
         <connector port="8446" clientAuth="false" _name="cert_https" enableWebtak="true" enableNonAdminUI="true"/>
     </network>
     <channels>
-        <channel name="adsb-udp" enabled="true" description="ADS-B data"/>
+        <channel name="ADSB" enabled="true" description="ADS-B data"/>
     </channels>
 {{if getenv "LDAP_BIND_PASSWORD" ""}}
     <auth default="ldap" x509groups="true" x509addAnonymous="false">
