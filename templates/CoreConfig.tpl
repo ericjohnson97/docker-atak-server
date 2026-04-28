@@ -18,7 +18,7 @@
             <type>streaming</type>
             <tag>adsb</tag>
             <sync>true</sync>
-            <filtergroup>ADSB</filtergroup>
+            <filtergroup>default</filtergroup>
         </datafeed>
         <connector port="8443" _name="https" enableAdminUI="true" enableWebtak="false" enableNonAdminUI="false"/>
         <connector port="8444" useFederationTruststore="true" _name="fed_https"/>
