@@ -5,7 +5,7 @@
     <network multicastTTL="5">
         <input _name="stdssl" protocol="tls" port="8089" coreVersion="2"/>
 
-        <datafeed _name="adsb-feed"
+        <datafeed _name="adsb-tpl-7777"
                 protocol="udp"
                 port="7777"
                 coreVersion="2"
